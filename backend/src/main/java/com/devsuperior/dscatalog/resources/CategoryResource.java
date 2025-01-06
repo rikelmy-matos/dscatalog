@@ -17,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.services.CategoryService;
-import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -53,7 +52,7 @@ public class CategoryResource {
 	}
 	
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Void> update(@PathVariable Long id){
+	public ResponseEntity<Void> delete(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
