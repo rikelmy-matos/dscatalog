@@ -42,7 +42,7 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(Pageable pageable){
 		Page<Product> ProductList = repository.findAll(pageable);
-		return ProductList.map(x -> new ProductDTO(x));
+		return ProductList.map(x -> new ProductDTO(x, x.getCategories()));
 	}
 	
 	@Transactional(readOnly = true)
@@ -57,7 +57,7 @@ public class ProductService {
 		Product entity = new Product();
 		copyDtoToEntity(dto, entity);
 		entity = repository.save(entity);
-		return new ProductDTO(entity);
+		return new ProductDTO(entity, entity.getCategories());
 	}
 	
 
@@ -67,7 +67,7 @@ public class ProductService {
 			Product entity = repository.getReferenceById(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
-			return new ProductDTO(entity);
+			return new ProductDTO(entity, entity.getCategories());
 		}
 		catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("ID not found: " + id);	
