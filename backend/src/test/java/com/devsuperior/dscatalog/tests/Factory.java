@@ -9,10 +9,14 @@ import com.devsuperior.dscatalog.entities.Product;
 public class Factory {
 	
 	public static Product createProduct() {
-		
-		Product product = new Product(26L, "Phone", "Good Phone", 800.0, "https://img.com/img.png", Instant.parse("2025-04-20T23:00:00Z"));
-		product.getCategories().add(new Category(1L, "Eletrônicos"));
+		Product product = new Product(1L, "Phone", "Good Phone", 800.0, "https://img.com/img.png", Instant.parse("2025-04-20T23:00:00Z"));
+		product.getCategories().add(createCategory());
 		return product;
+	}
+	
+	public static Category createCategory() {
+		Category category = new Category(1L, "Eletrônicos");
+		return category;
 	}
 	
 	public static ProductDTO createProductDTO() {
