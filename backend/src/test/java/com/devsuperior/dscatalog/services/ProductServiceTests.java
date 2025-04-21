@@ -77,7 +77,6 @@ public class ProductServiceTests {
 	
 	@Test
 	public void findAllPagedShouldReturnPage() {
-		
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<ProductDTO> result = service.findAllPaged(pageable);
 		Assertions.assertNotNull(result);
@@ -86,14 +85,12 @@ public class ProductServiceTests {
 
 	@Test
 	public void findByIdShouldReturnProductDTOWhenIdExists() {
-		
 		ProductDTO productDTO = service.findById(existingId);
 		Assertions.assertNotNull(productDTO);
 	}
 	
 	@Test
 	public void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
-		
 		Assertions.assertThrows(ResourceNotFoundException.class, () ->{
 			service.findById(nonExistingId);
 		});
@@ -101,14 +98,12 @@ public class ProductServiceTests {
 	
 	@Test
 	public void updateShouldReturnProductDTOWhenIdExists() {
-		
 		ProductDTO productDTO = service.update(existingId, dto);
 		Assertions.assertNotNull(productDTO);	
 	}
 	
 	@Test
 	public void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
-	
 		Assertions.assertThrows(ResourceNotFoundException.class, () ->{
 			service.update(nonExistingId, dto);
 		});
@@ -117,7 +112,6 @@ public class ProductServiceTests {
 	
 	@Test
 	public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
-	
 		Assertions.assertThrows(ResourceNotFoundException.class, () ->{
 			service.delete(nonExistingId);
 		});
@@ -125,7 +119,6 @@ public class ProductServiceTests {
 	
 	@Test
 	public void deleteShouldThrowDatabaseExceptionWhenDependentId() {
-	
 		Assertions.assertThrows(DatabaseException.class, () ->{
 			service.delete(dependentId);
 		});
@@ -133,7 +126,6 @@ public class ProductServiceTests {
 	
 	@Test
 	public void deleteShouldDoNothingWhenIdExists() {
-	
 		Assertions.assertDoesNotThrow(() ->{
 			service.delete(existingId);
 		});
