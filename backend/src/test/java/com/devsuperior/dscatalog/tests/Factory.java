@@ -23,5 +23,4 @@ public class Factory {
 		Product product = createProduct();
 		return new ProductDTO(product, product.getCategories());
 	}
-
 }

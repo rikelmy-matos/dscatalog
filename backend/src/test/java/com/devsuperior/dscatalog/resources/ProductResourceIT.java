@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.tests.Factory;
+import com.devsuperior.dscatalog.tests.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -31,10 +32,15 @@ public class ProductResourceIT {
 	@Autowired
 	private ObjectMapper objectMapper;
 	
+	@Autowired
+	private TokenUtil tokenUtil;
+	
 	private Long existingId;
 	private Long nonExistingId;
 	private Long countTotalProducts;
 	private ProductDTO dto;
+	
+	private String username, password, bearerToken;
 	
 	@BeforeEach
 	void setUp() throws Exception{
@@ -42,6 +48,10 @@ public class ProductResourceIT {
 		nonExistingId = 100L;
 		countTotalProducts = 25L;
 		dto = Factory.createProductDTO();
+		
+		username = "maria@gmail.com";
+		password = "123456";
+		bearerToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
 	}
 	
 	@Test
@@ -70,6 +80,7 @@ public class ProductResourceIT {
 		String expectedDateStr = DateTimeFormatter.ISO_INSTANT.format(expectedDate);
 		
 		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.put("/products/{id}", existingId)
+				.header("Authorization", "Bearer " + bearerToken)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -89,6 +100,7 @@ public class ProductResourceIT {
 		
 		String jsonBody = objectMapper.writeValueAsString(dto);
 		ResultActions result = mockMvc.perform(MockMvcRequestBuilders.put("/products/{id}", nonExistingId)
+				.header("Authorization", "Bearer " + bearerToken)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
